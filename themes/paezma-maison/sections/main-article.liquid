@@ -1,0 +1,12 @@
+<article>
+  {%- if article.image -%}<div class="article__hero"><div class="media-cover">{{ article.image | image_url: width: 2400 | image_tag: loading: 'eager', sizes: '100vw', widths: '900,1400,1800,2400', alt: article.title }}</div></div>{%- endif -%}
+  <div class="page-narrow" style="padding-bottom:90px{% unless article.image %};padding-top:50px{% endunless %}">
+    <p class="t-center uc muted" style="font-size:11px">{{ article.published_at | date: format: 'date' }}</p>
+    <h1 class="t-center" style="margin-bottom:30px">{{ article.title }}</h1>
+    <div class="rte" style="font-size:14.5px;line-height:1.8">{{ article.content }}</div>
+    <p style="margin-top:40px"><a href="{{ blog.url }}" class="btn-link">← {{ 'blog.back' | t }}</a></p>
+  </div>
+</article>
+{% schema %}
+{ "name": "Artículo", "settings": [] }
+{% endschema %}

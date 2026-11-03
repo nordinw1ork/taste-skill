@@ -1,0 +1,148 @@
+{%- liquid
+  assign transparent = false
+  if template.name == 'index' and settings.transparent_header
+    assign transparent = true
+  endif
+  assign menu = section.settings.menu.links
+-%}
+<div class="header-wrap">
+<header class="header{% if transparent %} is-transparent{% endif %}" data-header>
+  <div class="header__left">
+    <button type="button" class="header__icon header__burger" data-open="MenuDrawer" aria-label="{{ 'general.menu' | t }}">{% render 'icon', icon: 'menu' %}</button>
+    <ul class="header__nav">
+      {%- for link in menu -%}
+        {%- assign mega_block = section.blocks | where: 'settings.menu_item', link.title | first -%}
+        <li class="{% if link.links.size > 0 %}has-mega{% endif %}">
+          <a href="{{ link.url }}" class="header__link">{{ link.title }}</a>
+          {%- if link.links.size > 0 -%}
+            <div class="mega">
+              <div class="mega__inner">
+                {%- assign has_grand = false -%}
+                {%- for child in link.links -%}{%- if child.links.size > 0 -%}{%- assign has_grand = true -%}{%- endif -%}{%- endfor -%}
+                {%- if has_grand -%}
+                  {%- for child in link.links limit: 4 -%}
+                    <div class="mega__col">
+                      <h4><a href="{{ child.url }}" style="color:inherit">{{ child.title }}</a></h4>
+                      <ul>{%- for g in child.links -%}<li><a href="{{ g.url }}">{{ g.title }}</a></li>{%- endfor -%}</ul>
+                    </div>
+                  {%- endfor -%}
+                {%- else -%}
+                  <div class="mega__col">
+                    <h4>{{ link.title }}</h4>
+                    <ul>{%- for child in link.links -%}<li><a href="{{ child.url }}">{{ child.title }}</a></li>{%- endfor -%}</ul>
+                  </div>
+                {%- endif -%}
+                {%- if mega_block -%}
+                  {%- assign col_start = 5 -%}
+                  {%- unless has_grand -%}{%- assign col_start = 5 -%}{%- endunless -%}
+                  {%- if mega_block.settings.image_1 -%}
+                    <a href="{{ mega_block.settings.link_1 | default: link.url }}" class="mega__promo" style="grid-column:{{ col_start }}">
+                      {{ mega_block.settings.image_1 | image_url: width: 600 | image_tag: loading: 'lazy', alt: mega_block.settings.label_1 }}
+                      <span>{{ mega_block.settings.label_1 }}</span>
+                    </a>
+                  {%- endif -%}
+                  {%- if mega_block.settings.image_2 -%}
+                    <a href="{{ mega_block.settings.link_2 | default: link.url }}" class="mega__promo" style="grid-column:6">
+                      {{ mega_block.settings.image_2 | image_url: width: 600 | image_tag: loading: 'lazy', alt: mega_block.settings.label_2 }}
+                      <span>{{ mega_block.settings.label_2 }}</span>
+                    </a>
+                  {%- endif -%}
+                {%- endif -%}
+              </div>
+            </div>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+  <a href="{{ routes.root_url }}" class="header__logo" aria-label="{{ shop.name }}">
+    {%- if section.settings.logo -%}
+      {{ section.settings.logo | image_url: width: 500 | image_tag: class: 'logo--dark', alt: shop.name }}
+      {%- if section.settings.logo_light -%}
+        {{ section.settings.logo_light | image_url: width: 500 | image_tag: class: 'logo--light', alt: shop.name }}
+      {%- endif -%}
+    {%- else -%}
+      <span>{{ shop.name }}</span>
+    {%- endif -%}
+  </a>
+  <div class="header__right">
+    <button type="button" class="header__icon" data-open="SearchPop" aria-label="{{ 'general.search' | t }}">{% render 'icon', icon: 'search' %}<span class="icon-label">{{ 'general.search' | t }}</span></button>
+    {%- if shop.customer_accounts_enabled -%}
+      <a class="header__icon desktop-only" href="{{ routes.account_url }}" aria-label="{{ 'general.account' | t }}"><span class="icon-label">{{ 'general.account' | t }}</span></a>
+    {%- endif -%}
+    <a class="header__icon" href="{{ routes.cart_url }}" data-open="CartDrawer" aria-label="{{ 'general.cart' | t }}"><span class="icon-label">{{ 'general.cart' | t }}</span> <span>(<span data-cart-count>{{ cart.item_count }}</span>)</span></a>
+  </div>
+</header>
+</div>
+
+{%- if section.settings.logo -%}
+<style>.header__logo img{max-height:{{ section.settings.logo_height }}px}@media(max-width:767px){.header__logo img{max-height:{{ section.settings.logo_height | times: 0.8 | round }}px}}</style>
+{%- endif -%}
+
+<aside id="MenuDrawer" class="drawer drawer--left" aria-hidden="true" role="dialog" aria-label="{{ 'general.menu' | t }}">
+  <div class="drawer__head">
+    <h2>{{ 'general.menu' | t }}</h2>
+    <button type="button" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', icon: 'close' %}</button>
+  </div>
+  <div class="drawer__body">
+    <ul class="mnav">
+      {%- for link in menu -%}
+        <li>
+          {%- if link.links.size > 0 -%}
+            <details>
+              <summary>{{ link.title }} <span class="plus">+</span></summary>
+              <ul>
+                <li><a href="{{ link.url }}">{{ 'general.view_all' | t }}</a></li>
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}">{{ child.title }}</a></li>
+                  {%- for g in child.links -%}<li style="padding-left:12px"><a href="{{ g.url }}">{{ g.title }}</a></li>{%- endfor -%}
+                {%- endfor -%}
+              </ul>
+            </details>
+          {%- else -%}
+            <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+    <div class="mnav__extra">
+      {%- for link in section.settings.secondary_menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+      {%- if shop.customer_accounts_enabled -%}<a href="{{ routes.account_url }}">{{ 'general.account' | t }}</a>{%- endif -%}
+    </div>
+  </div>
+</aside>
+
+<div id="SearchPop" class="search-pop" aria-hidden="true" role="dialog" aria-label="{{ 'general.search' | t }}">
+  <form action="{{ routes.search_url }}" method="get" role="search">
+    {% render 'icon', icon: 'search' %}
+    <input type="search" name="q" placeholder="{{ 'search.placeholder' | t }}" autocomplete="off" data-predictive-input aria-label="{{ 'general.search' | t }}">
+    <input type="hidden" name="options[prefix]" value="last">
+    <button type="button" data-close aria-label="{{ 'general.close' | t }}">{% render 'icon', icon: 'close' %}</button>
+  </form>
+  <div class="search-pop__results" data-predictive-results></div>
+</div>
+
+{% schema %}
+{
+  "name": "Cabecera",
+  "class": "section-header",
+  "settings": [
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "image_picker", "id": "logo_light", "label": "Logo blanco (cabecera transparente)" },
+    { "type": "range", "id": "logo_height", "label": "Altura del logo", "min": 16, "max": 80, "step": 2, "unit": "px", "default": 30 },
+    { "type": "link_list", "id": "menu", "label": "Menú principal", "default": "main-menu" },
+    { "type": "link_list", "id": "secondary_menu", "label": "Menú secundario (móvil)" }
+  ],
+  "blocks": [
+    { "type": "mega", "name": "Imágenes mega menú", "settings": [
+      { "type": "text", "id": "menu_item", "label": "Título exacto del elemento de menú", "info": "Ej.: Joyas" },
+      { "type": "image_picker", "id": "image_1", "label": "Imagen 1" },
+      { "type": "text", "id": "label_1", "label": "Texto 1" },
+      { "type": "url", "id": "link_1", "label": "Enlace 1" },
+      { "type": "image_picker", "id": "image_2", "label": "Imagen 2" },
+      { "type": "text", "id": "label_2", "label": "Texto 2" },
+      { "type": "url", "id": "link_2", "label": "Enlace 2" }
+    ] }
+  ]
+}
+{% endschema %}

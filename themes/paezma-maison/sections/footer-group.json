@@ -1,0 +1,17 @@
+{
+  "type": "footer",
+  "name": "Grupo pie",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "shop": { "type": "menu", "settings": { "title": "Tienda", "menu": "main-menu" } },
+        "service": { "type": "menu", "settings": { "title": "Atención al cliente", "menu": "footer" } },
+        "contact": { "type": "text", "settings": { "title": "Contacto", "text": "<p>Escríbenos por email o Instagram y te respondemos en menos de 24 h.</p>" } }
+      },
+      "block_order": ["shop", "service", "contact"],
+      "settings": { "newsletter_title": "Únete a nuestra comunidad y recibe novedades exclusivas", "show_payment": true }
+    }
+  },
+  "order": ["footer"]
+}

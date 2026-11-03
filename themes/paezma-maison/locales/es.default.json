@@ -1,0 +1,135 @@
+{
+  "general": {
+    "skip": "Ir al contenido",
+    "page": "Página {{ page }}",
+    "menu": "Menú",
+    "close": "Cerrar",
+    "search": "Buscar",
+    "account": "Cuenta",
+    "login": "Iniciar sesión",
+    "cart": "Cesta",
+    "back": "Atrás",
+    "view_all": "Ver todo",
+    "shop_now": "Comprar ahora",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "password_title": "Muy pronto",
+    "enter_password": "Entrar con contraseña",
+    "password": "Contraseña",
+    "enter": "Entrar"
+  },
+  "products": {
+    "add_to_cart": "Añadir a la cesta",
+    "sold_out": "Agotado",
+    "unavailable": "No disponible",
+    "sale": "Rebaja",
+    "new": "Nuevo",
+    "choose": "Elige tu opción",
+    "from": "Desde {{ price }}",
+    "tax_included": "IVA incluido.",
+    "quantity": "Cantidad",
+    "related": "También te puede gustar",
+    "details": "Detalles",
+    "care": "Cuidados",
+    "shipping": "Envíos y devoluciones",
+    "share": "Compartir"
+  },
+  "collections": {
+    "empty": "No hay productos en esta colección.",
+    "products_count": {
+      "one": "{{ count }} producto",
+      "other": "{{ count }} productos"
+    },
+    "filter": "Filtrar",
+    "sort": "Ordenar",
+    "clear": "Borrar todo",
+    "apply": "Ver resultados",
+    "all": "Todas las colecciones"
+  },
+  "cart": {
+    "title": "Tu cesta",
+    "empty": "Tu cesta está vacía",
+    "continue": "Seguir comprando",
+    "checkout": "Finalizar compra",
+    "subtotal": "Subtotal",
+    "remove": "Eliminar",
+    "added": "Añadido a tu cesta",
+    "note": "Nota del pedido",
+    "free_shipping_reached": "¡Tienes envío gratis!",
+    "free_shipping_left": "Te faltan {{ amount }} para el envío gratis",
+    "error": "No se pudo añadir el producto"
+  },
+  "search": {
+    "title": "Buscar",
+    "placeholder": "¿Qué estás buscando?",
+    "results": {
+      "one": "{{ count }} resultado para «{{ terms }}»",
+      "other": "{{ count }} resultados para «{{ terms }}»"
+    },
+    "no_results": "No hay resultados para «{{ terms }}»."
+  },
+  "newsletter": {
+    "email": "Correo electrónico",
+    "subscribe": "Suscribirme",
+    "success": "¡Gracias por suscribirte!"
+  },
+  "blog": {
+    "read_more": "Leer más",
+    "back": "Volver al blog"
+  },
+  "customer": {
+    "login": "Iniciar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "forgot": "¿Has olvidado tu contraseña?",
+    "create": "Crear cuenta",
+    "first_name": "Nombre",
+    "last_name": "Apellidos",
+    "register": "Registrarme",
+    "logout": "Cerrar sesión",
+    "orders": "Mis pedidos",
+    "no_orders": "Todavía no has realizado ningún pedido.",
+    "order": "Pedido",
+    "date": "Fecha",
+    "payment": "Pago",
+    "fulfillment": "Envío",
+    "total": "Total",
+    "addresses": "Direcciones",
+    "view_addresses": "Ver direcciones",
+    "add_address": "Añadir dirección",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "reset": "Restablecer contraseña",
+    "reset_text": "Te enviaremos un correo para restablecer tu contraseña.",
+    "submit": "Enviar",
+    "activate": "Activar cuenta",
+    "decline": "Rechazar invitación",
+    "product": "Producto",
+    "price": "Precio",
+    "quantity": "Cantidad",
+    "shipping_address": "Dirección de envío",
+    "billing_address": "Dirección de facturación",
+    "company": "Empresa",
+    "address1": "Dirección",
+    "address2": "Piso, puerta…",
+    "city": "Ciudad",
+    "country": "País",
+    "province": "Provincia",
+    "zip": "Código postal",
+    "phone": "Teléfono",
+    "default": "Dirección predeterminada",
+    "set_default": "Establecer como predeterminada"
+  },
+  "gift_card": {
+    "title": "Tu tarjeta regalo",
+    "code": "Código",
+    "copy": "Copiar código",
+    "print": "Imprimir"
+  },
+  "not_found": {
+    "title": "Página no encontrada",
+    "text": "La página que buscas no existe."
+  }
+}

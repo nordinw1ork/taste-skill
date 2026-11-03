@@ -1,0 +1,16 @@
+<div class="page-narrow" style="padding-top:50px;padding-bottom:90px;max-width:620px">
+  <h1 class="t-center" style="margin-bottom:24px">{{ page.title }}</h1>
+  {%- if page.content != blank -%}<div class="rte muted t-center" style="margin-bottom:30px">{{ page.content }}</div>{%- endif -%}
+  {%- form 'contact' -%}
+    {%- if form.posted_successfully? -%}<p class="form-success">¡Gracias! Te responderemos lo antes posible.</p>{%- endif -%}
+    {{ form.errors | default_errors }}
+    <div class="field"><label for="CName">Nombre</label><input id="CName" name="contact[name]" value="{{ form.name }}"></div>
+    <div class="field"><label for="CEmail">Email</label><input id="CEmail" type="email" name="contact[email]" required value="{{ form.email }}"></div>
+    <div class="field"><label for="CPhone">Teléfono</label><input id="CPhone" type="tel" name="contact[phone]" value="{{ form.phone }}"></div>
+    <div class="field"><label for="CBody">Mensaje</label><textarea id="CBody" name="contact[body]" required>{{ form.body }}</textarea></div>
+    <button type="submit" class="btn btn--full">Enviar</button>
+  {%- endform -%}
+</div>
+{% schema %}
+{ "name": "Formulario de contacto", "settings": [] }
+{% endschema %}

@@ -1,0 +1,4 @@
+{
+  "sections": { "main": { "type": "main-collection", "settings": { "per_page": 24, "cols": 4, "show_banner": false, "show_description": true, "enable_filtering": true, "enable_sorting": true } } },
+  "order": ["main"]
+}

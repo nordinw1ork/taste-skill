@@ -1,0 +1,25 @@
+{%- paginate search.results by 24 -%}
+<div class="coll-hero">
+  <h1>{{ 'search.title' | t }}</h1>
+  <form action="{{ routes.search_url }}" method="get" class="newsletter" style="padding:0"><div style="display:flex;max-width:520px;margin:12px auto;border-bottom:1px solid var(--c-text)"><input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'search.placeholder' | t }}" style="flex:1;border:0;height:46px;outline:0;background:transparent"><input type="hidden" name="options[prefix]" value="last"><button type="submit" class="uc" style="font-size:11.5px">{{ 'general.search' | t }}</button></div></form>
+  {%- if search.performed -%}<p class="muted">{%- if search.results_count > 0 -%}{{ 'search.results' | t: count: search.results_count, terms: search.terms }}{%- else -%}{{ 'search.no_results' | t: terms: search.terms }}{%- endif -%}</p>{%- endif -%}
+</div>
+{%- if search.performed and search.results_count > 0 -%}
+  <div class="product-grid" data-product-grid style="--cols:4;--cols-m:2">
+    {%- for item in search.results -%}
+      {%- if item.object_type == 'product' -%}
+        {% render 'product-card', product: item %}
+      {%- else -%}
+        <a href="{{ item.url }}" class="article-card"><div class="media-cover" style="aspect-ratio:3/4">{%- if item.image -%}{{ item.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: item.title }}{%- endif -%}</div><h3 style="font-size:13px;margin-top:10px">{{ item.title }}</h3></a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+  {%- if paginate.pages > 1 -%}
+    <nav class="pagination">{%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">← {{ 'general.previous' | t }}</a>{%- endif -%}<span>{{ paginate.current_page }} / {{ paginate.pages }}</span>{%- if paginate.next -%}<a href="{{ paginate.next.url }}">{{ 'general.next' | t }} →</a>{%- endif -%}</nav>
+  {%- endif -%}
+{%- endif -%}
+<div style="height:80px"></div>
+{%- endpaginate -%}
+{% schema %}
+{ "name": "Búsqueda", "settings": [] }
+{% endschema %}

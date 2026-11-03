@@ -1,0 +1,30 @@
+<section class="section" style="--pt:{{ section.settings.pt }}px;--pb:{{ section.settings.pb }}px;--pt-m:{{ section.settings.pt_m }}px;--pb-m:{{ section.settings.pb_m }}px">
+  {%- if section.settings.title != blank -%}<h2 class="t-center" style="margin-bottom:24px" data-reveal>{{ section.settings.title }}</h2>{%- endif -%}
+  {%- assign items = section.settings.collections -%}
+  <div class="cats__grid" style="--cols:{{ section.settings.cols }};--cols-m:2">
+    {%- for c in items -%}
+      <a href="{{ c.url }}" class="cats__item" data-reveal>
+        <div class="media-cover" style="aspect-ratio:3/4">{%- if c.featured_image -%}{{ c.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 25vw, 50vw', widths: '400,600,900', alt: c.title }}{%- else -%}{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}</div>
+        <div class="cats__label t-center"><span class="btn-link">{{ c.title }}</span></div>
+      </a>
+    {%- else -%}
+      {%- for i in (1..4) -%}<div class="cats__item"><div class="media-cover" style="aspect-ratio:3/4">{{ 'collection-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}</div><div class="cats__label t-center"><span class="btn-link">Colección</span></div></div>{%- endfor -%}
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Lista de colecciones",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Comprar por categoría" },
+    { "type": "collection_list", "id": "collections", "label": "Colecciones", "limit": 12 },
+    { "type": "range", "id": "cols", "label": "Columnas", "min": 2, "max": 6, "step": 1, "default": 4 },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "pt", "label": "Margen superior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "pb", "label": "Margen inferior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 60 },
+    { "type": "range", "id": "pt_m", "label": "Margen superior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "pb_m", "label": "Margen inferior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 }
+  ],
+  "presets": [ { "name": "Lista de colecciones" } ]
+}
+{% endschema %}

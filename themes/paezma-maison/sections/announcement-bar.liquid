@@ -1,0 +1,28 @@
+{%- if section.blocks.size > 0 -%}
+<div class="announcement" data-announcement style="background:{{ section.settings.bg }};color:{{ section.settings.color }}">
+  <div class="announcement__track">
+    {%- for block in section.blocks -%}
+      <div class="announcement__item" {{ block.shopify_attributes }}>
+        {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{{ block.settings.text }}</a>{%- else -%}{{ block.settings.text }}{%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</div>
+{%- endif -%}
+{% schema %}
+{
+  "name": "Barra de anuncios",
+  "class": "section-announcement",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Fondo", "default": "#2A2A2A" },
+    { "type": "color", "id": "color", "label": "Texto", "default": "#FFFFFF" }
+  ],
+  "blocks": [
+    { "type": "message", "name": "Mensaje", "settings": [
+      { "type": "text", "id": "text", "label": "Texto", "default": "Envío gratis a partir de 50 €" },
+      { "type": "url", "id": "link", "label": "Enlace" }
+    ] }
+  ],
+  "presets": [ { "name": "Barra de anuncios", "blocks": [ { "type": "message" } ] } ]
+}
+{% endschema %}

@@ -1,0 +1,56 @@
+{
+  "sections": {
+    "hero": {
+      "type": "full-screen-media",
+      "settings": { "title": "Nueva colección", "text": "<p>Joyas delicadas para el día a día.</p>", "button_label": "Comprar ahora", "link": "shopify://collections/all", "button_style": "pill", "v_align": "bottom", "bottom_offset": 80, "overlay": 15, "height": "full", "color": "#FFFFFF", "pt": 0, "pb": 0, "pt_m": 0, "pb_m": 0 }
+    },
+    "categories": {
+      "type": "categories-highlight",
+      "blocks": {
+        "c1": { "type": "category", "settings": { "label": "Collares" } },
+        "c2": { "type": "category", "settings": { "label": "Pendientes" } },
+        "c3": { "type": "category", "settings": { "label": "Anillos" } },
+        "c4": { "type": "category", "settings": { "label": "Pulseras" } }
+      },
+      "block_order": ["c1", "c2", "c3", "c4"],
+      "settings": { "title": "Nuestras piezas firma", "cols": 4, "cols_m": 2, "ratio": "3/4", "label_overlay": false, "pt": 30, "pb": 30, "pt_m": 50, "pb_m": 50 }
+    },
+    "row": {
+      "type": "product-row",
+      "settings": { "title": "Selección curada", "link_label": "Ver todo", "limit": 12, "cols": 4, "cols_m": "1.5", "pt": 70, "pb": 70, "pt_m": 0, "pb_m": 26 }
+    },
+    "editorial": {
+      "type": "editorial",
+      "settings": { "layout": "content-media", "title": "La colección de temporada", "text": "<p>Cada pieza nace de la idea de que el lujo está en los detalles. Siluetas finas, brillo sutil y materiales pensados para durar: joyas creadas para acompañarte de la mañana a la noche.</p>", "button_label": "Descubrir la colección", "link": "shopify://collections/all", "align": "left", "bg": "#FFFFFF", "pt": 0, "pb": 0, "pt_m": 0, "pb_m": 40 }
+    },
+    "banner": {
+      "type": "long-image-banner",
+      "settings": { "title": "El lookbook", "button_label": "Ver lookbook", "link": "shopify://collections/all", "height": 75, "overlay": 15, "color": "#FFFFFF", "pt": 0, "pb": 0, "pt_m": 0, "pb_m": 0 }
+    },
+    "split": {
+      "type": "split-media",
+      "blocks": {
+        "w1": { "type": "window", "settings": { "label": "Collares", "ratio": "3/4" } },
+        "w2": { "type": "window", "settings": { "label": "Pendientes", "ratio": "16/11" } }
+      },
+      "block_order": ["w1", "w2"],
+      "settings": { "split": "3fr 7fr", "pt": 72, "pb": 72, "pt_m": 40, "pb_m": 40 }
+    },
+    "hero_2": {
+      "type": "full-screen-media",
+      "settings": { "title": "Hecho para brillar", "button_label": "Comprar ahora", "link": "shopify://collections/all", "button_style": "pill", "v_align": "bottom", "bottom_offset": 40, "overlay": 15, "height": "full", "color": "#FFFFFF", "pt": 0, "pb": 0, "pt_m": 0, "pb_m": 0 }
+    },
+    "values": {
+      "type": "values",
+      "blocks": {
+        "v1": { "type": "item", "settings": { "icon": "truck", "title": "Envío gratis", "text": "En pedidos a partir de 50 €" } },
+        "v2": { "type": "item", "settings": { "icon": "return", "title": "Devoluciones", "text": "14 días para cambiar de opinión" } },
+        "v3": { "type": "item", "settings": { "icon": "diamond", "title": "Calidad", "text": "Baño de oro de 18k e hipoalergénico" } },
+        "v4": { "type": "item", "settings": { "icon": "gift", "title": "Listo para regalar", "text": "Packaging de regalo en cada pedido" } }
+      },
+      "block_order": ["v1", "v2", "v3", "v4"],
+      "settings": { "bg": "#F6F5F3", "pt": 56, "pb": 56, "pt_m": 40, "pb_m": 40 }
+    }
+  },
+  "order": ["hero", "categories", "row", "editorial", "banner", "split", "hero_2", "values"]
+}

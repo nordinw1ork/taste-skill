@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "vendor": { "type": "vendor" },
+        "title": { "type": "title" },
+        "price": { "type": "price" },
+        "variants": { "type": "variant_picker" },
+        "buy": { "type": "buy_buttons", "settings": { "show_qty": false, "show_dynamic_checkout": true } },
+        "usp": { "type": "usp" },
+        "desc": { "type": "description_tab", "settings": { "heading": "Descripción" } },
+        "care": { "type": "collapsible", "settings": { "heading": "Materiales y cuidados", "content": "<p>Evita el contacto con perfumes, cremas y agua. Guarda la pieza en su bolsita después de usarla para mantener su brillo.</p>" } },
+        "ship": { "type": "collapsible", "settings": { "heading": "Envíos y devoluciones", "content": "<p>Envío gratis a partir de 50 €. Tienes 14 días para devolver tu pedido.</p>" } }
+      },
+      "block_order": ["vendor", "title", "price", "variants", "buy", "usp", "desc", "care", "ship"]
+    },
+    "related": { "type": "related-products", "settings": { "title": "También te puede gustar" } }
+  },
+  "order": ["main", "related"]
+}

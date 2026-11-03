@@ -1,0 +1,27 @@
+<section class="section" style="--pt:{{ section.settings.pt }}px;--pb:{{ section.settings.pb }}px;--pt-m:{{ section.settings.pt_m }}px;--pb-m:{{ section.settings.pb_m }}px;background:{{ section.settings.bg }}">
+  <div class="richtext" data-reveal>
+    {%- if section.settings.eyebrow != blank -%}<div class="eyebrow">{{ section.settings.eyebrow }}</div>{%- endif -%}
+    {%- if section.settings.title != blank -%}<h2>{{ section.settings.title }}</h2>{%- endif -%}
+    {%- if section.settings.text != blank -%}<div class="rte">{{ section.settings.text }}</div>{%- endif -%}
+    {%- if section.settings.button_label != blank -%}<a href="{{ section.settings.link }}" class="btn-link" style="margin-top:12px">{{ section.settings.button_label }}</a>{%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Texto",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Hecho para durar" },
+    { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Cuenta la historia de tu marca.</p>" },
+    { "type": "text", "id": "button_label", "label": "Botón" },
+    { "type": "url", "id": "link", "label": "Enlace" },
+    { "type": "color", "id": "bg", "label": "Fondo", "default": "#FFFFFF" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "pt", "label": "Margen superior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "pb", "label": "Margen inferior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 80 },
+    { "type": "range", "id": "pt_m", "label": "Margen superior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 50 },
+    { "type": "range", "id": "pb_m", "label": "Margen inferior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 50 }
+  ],
+  "presets": [ { "name": "Texto" } ]
+}
+{% endschema %}

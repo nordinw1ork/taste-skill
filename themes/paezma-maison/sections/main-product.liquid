@@ -1,0 +1,169 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+<section class="pdp" data-product id="Product-{{ section.id }}">
+  <script type="application/json" data-product-json>{{ product | json }}</script>
+  <div class="pdp__gallery{% if product.media.size < 2 %} single{% endif %}">
+    {%- for media in product.media -%}
+      <div class="pdp__media" data-media-id="{{ media.id }}" {% if media.media_type == 'image' %}data-zoom{% endif %}>
+        {%- case media.media_type -%}
+          {%- when 'image' -%}
+            {%- assign full_src = media | image_url: width: 2400 -%}{%- assign load = 'lazy' -%}{%- if forloop.index < 3 -%}{%- assign load = 'eager' -%}{%- endif -%}
+            {{ media | image_url: width: 1600 | image_tag: loading: load, sizes: '(min-width: 990px) 35vw, 90vw', widths: '600,900,1200,1600', alt: media.alt | default: product.title, data-full: full_src }}
+          {%- when 'video' -%}
+            {{ media | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false }}
+          {%- when 'external_video' -%}
+            {{ media | external_video_tag }}
+          {%- when 'model' -%}
+            {{ media | model_viewer_tag }}
+        {%- endcase -%}
+      </div>
+    {%- else -%}
+      <div class="pdp__media">{{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}</div>
+    {%- endfor -%}
+  </div>
+
+  <div class="pdp__info">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'vendor' -%}
+          <div class="pdp__vendor" {{ block.shopify_attributes }}>{{ product.vendor }}</div>
+        {%- when 'title' -%}
+          <h1 class="pdp__title" {{ block.shopify_attributes }}>{{ product.title }}</h1>
+        {%- when 'price' -%}
+          <div {{ block.shopify_attributes }}>
+            <div class="pdp__price price" data-price>{% render 'price', product: product, variant: current_variant %}</div>
+            <div class="pdp__tax">{{ 'products.tax_included' | t }}</div>
+            {%- form 'product', product, id: 'InstallmentsForm' -%}<input type="hidden" name="id" value="{{ current_variant.id }}">{{ form | payment_terms }}{%- endform -%}
+          </div>
+        {%- when 'description' -%}
+          {%- if product.description != blank -%}<div class="pdp__desc rte" {{ block.shopify_attributes }}>{{ product.description }}</div>{%- endif -%}
+        {%- when 'variant_picker' -%}
+          {%- unless product.has_only_default_variant -%}
+            <div {{ block.shopify_attributes }}>
+            {%- for option in product.options_with_values -%}
+              {%- assign oname = option.name | downcase -%}
+              {%- assign is_color = false -%}
+              {%- if oname == 'color' or oname == 'colour' or oname == 'color de metal' or oname == 'metal' -%}{%- assign is_color = true -%}{%- endif -%}
+              <fieldset class="opt" data-option-index="{{ forloop.index0 }}">
+                <legend>{{ option.name }}: <span data-selected-value>{{ option.selected_value }}</span></legend>
+                <div class="opt__values">
+                  {%- for value in option.values -%}
+                    {%- assign vid = section.id | append: '-' | append: option.position | append: '-' | append: forloop.index -%}
+                    <input type="radio" id="{{ vid }}" name="{{ section.id }}-option-{{ option.position }}" value="{{ value | escape }}" {% if option.selected_value == value %}checked{% endif %}>
+                    {%- if is_color and value.swatch -%}
+                      <label for="{{ vid }}" class="swatch" title="{{ value | escape }}" style="{% if value.swatch.image %}background:url({{ value.swatch.image | image_url: width: 60 }}) center/cover{% else %}background:{{ value.swatch.color }}{% endif %}"><span class="visually-hidden">{{ value }}</span></label>
+                    {%- else -%}
+                      <label for="{{ vid }}">{{ value }}</label>
+                    {%- endif -%}
+                  {%- endfor -%}
+                </div>
+              </fieldset>
+            {%- endfor -%}
+            </div>
+          {%- endunless -%}
+        {%- when 'buy_buttons' -%}
+          <div {{ block.shopify_attributes }}>
+          {%- form 'product', product, data-product-form: '', novalidate: 'novalidate' -%}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+            <div class="pdp__buy">
+              {%- if block.settings.show_qty -%}
+                <div class="qty">
+                  <button type="button" data-line-qty="-1" aria-label="-">−</button>
+                  <input type="number" name="quantity" value="1" min="1" aria-label="{{ 'products.quantity' | t }}">
+                  <button type="button" data-line-qty="1" aria-label="+">+</button>
+                </div>
+              {%- endif -%}
+              <button type="submit" class="btn" {% unless current_variant.available %}disabled{% endunless %}>
+                {%- if current_variant.available -%}{{ 'products.add_to_cart' | t }}{%- else -%}{{ 'products.sold_out' | t }}{%- endif -%}
+              </button>
+            </div>
+            {%- if block.settings.show_dynamic_checkout -%}{{ form | payment_button }}{%- endif -%}
+          {%- endform -%}
+          </div>
+        {%- when 'collapsible' -%}
+          {%- assign content = block.settings.content -%}
+          {%- if block.settings.page != blank -%}{%- assign content = block.settings.page.content -%}{%- endif -%}
+          {%- if content != blank -%}
+          <details class="acc" {{ block.shopify_attributes }}{% if block.settings.open %} open{% endif %}>
+            <summary>{{ block.settings.heading }} <span class="plus">+</span></summary>
+            <div class="rte">{{ content }}</div>
+          </details>
+          {%- endif -%}
+        {%- when 'description_tab' -%}
+          {%- if product.description != blank -%}
+          <details class="acc" {{ block.shopify_attributes }} open>
+            <summary>{{ block.settings.heading }} <span class="plus">+</span></summary>
+            <div class="rte">{{ product.description }}</div>
+          </details>
+          {%- endif -%}
+        {%- when 'usp' -%}
+          <div class="pdp__usp" {{ block.shopify_attributes }}>
+            {%- if block.settings.line_1 != blank -%}<div>{% render 'icon', icon: 'truck' %}{{ block.settings.line_1 }}</div>{%- endif -%}
+            {%- if block.settings.line_2 != blank -%}<div>{% render 'icon', icon: 'return' %}{{ block.settings.line_2 }}</div>{%- endif -%}
+            {%- if block.settings.line_3 != blank -%}<div>{% render 'icon', icon: 'diamond' %}{{ block.settings.line_3 }}</div>{%- endif -%}
+          </div>
+        {%- when 'text' -%}
+          <div class="rte muted" style="margin:14px 0" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+        {%- when '@app' -%}
+          {% render block %}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</section>
+<div id="Lightbox" class="lightbox" aria-hidden="true"></div>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "url": {{ request.origin | append: product.url | json }},
+  {%- if product.featured_media -%}"image": [{{ product.featured_media | image_url: width: 1200 | prepend: 'https:' | json }}],{%- endif -%}
+  "description": {{ product.description | strip_html | json }},
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  "offers": [
+    {%- for variant in product.variants -%}
+    {
+      "@type": "Offer",
+      {%- if variant.sku != blank -%}"sku": {{ variant.sku | json }},{%- endif -%}
+      "availability": "http://schema.org/{% if variant.available %}InStock{% else %}OutOfStock{% endif %}",
+      "price": {{ variant.price | divided_by: 100.0 | json }},
+      "priceCurrency": {{ cart.currency.iso_code | json }},
+      "url": {{ request.origin | append: variant.url | json }}
+    }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% schema %}
+{
+  "name": "Producto",
+  "blocks": [
+    { "type": "@app" },
+    { "type": "vendor", "name": "Marca", "limit": 1 },
+    { "type": "title", "name": "Título", "limit": 1 },
+    { "type": "price", "name": "Precio", "limit": 1 },
+    { "type": "description", "name": "Descripción", "limit": 1 },
+    { "type": "variant_picker", "name": "Selector de variantes", "limit": 1 },
+    { "type": "buy_buttons", "name": "Botones de compra", "limit": 1, "settings": [
+      { "type": "checkbox", "id": "show_qty", "label": "Selector de cantidad", "default": false },
+      { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Botones de pago rápido", "default": true }
+    ] },
+    { "type": "description_tab", "name": "Descripción (desplegable)", "limit": 1, "settings": [
+      { "type": "text", "id": "heading", "label": "Título", "default": "Descripción" }
+    ] },
+    { "type": "collapsible", "name": "Desplegable", "settings": [
+      { "type": "text", "id": "heading", "label": "Título", "default": "Cuidados" },
+      { "type": "richtext", "id": "content", "label": "Contenido", "default": "<p>Evita el contacto con perfumes, cremas y agua. Guarda la pieza en su bolsita después de usarla.</p>" },
+      { "type": "page", "id": "page", "label": "O contenido de una página" },
+      { "type": "checkbox", "id": "open", "label": "Abierto por defecto", "default": false }
+    ] },
+    { "type": "usp", "name": "Ventajas", "limit": 1, "settings": [
+      { "type": "text", "id": "line_1", "label": "Línea 1", "default": "Envío gratis a partir de 50 €" },
+      { "type": "text", "id": "line_2", "label": "Línea 2", "default": "Devoluciones gratuitas en 14 días" },
+      { "type": "text", "id": "line_3", "label": "Línea 3", "default": "Baño de oro de 18k · Hipoalergénico" }
+    ] },
+    { "type": "text", "name": "Texto", "settings": [ { "type": "richtext", "id": "text", "label": "Texto" } ] }
+  ]
+}
+{% endschema %}

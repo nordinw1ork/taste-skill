@@ -1,0 +1,25 @@
+<div class="coll-hero"><h1>{{ 'cart.title' | t }}</h1></div>
+{%- if cart.item_count == 0 -%}
+  <div class="cart-empty"><p class="uc">{{ 'cart.empty' | t }}</p><a href="{{ routes.all_products_collection_url }}" class="btn">{{ 'cart.continue' | t }}</a></div>
+{%- else -%}
+<form action="{{ routes.cart_url }}" method="post" class="cart-page" data-cart-inner>
+  <div>
+    {%- for item in cart.items -%}{% render 'cart-line', item: item %}{%- endfor -%}
+  </div>
+  <div>
+    <div class="cart-summary">
+      <div class="cart-sub"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></div>
+      {%- for d in cart.cart_level_discount_applications -%}<div class="cart-note">{{ d.title }} (-{{ d.total_allocated_amount | money }})</div>{%- endfor -%}
+      <p class="cart-note">{{ settings.cart_note }}</p>
+      {%- if section.settings.show_note -%}
+        <div class="field"><label for="CartNote">{{ 'cart.note' | t }}</label><textarea id="CartNote" name="note">{{ cart.note }}</textarea></div>
+      {%- endif -%}
+      <button type="submit" name="checkout" class="btn btn--full">{{ 'cart.checkout' | t }}</button>
+      {%- if additional_checkout_buttons -%}<div style="margin-top:10px">{{ content_for_additional_checkout_buttons }}</div>{%- endif -%}
+    </div>
+  </div>
+</form>
+{%- endif -%}
+{% schema %}
+{ "name": "Cesta", "settings": [ { "type": "checkbox", "id": "show_note", "label": "Nota del pedido", "default": true } ] }
+{% endschema %}

@@ -1,0 +1,21 @@
+{
+  "current": "Default",
+  "presets": {
+    "Default": {
+      "color_text": "#2A2A2A",
+      "color_muted": "#737373",
+      "color_background": "#FFFFFF",
+      "color_soft": "#F6F5F3",
+      "color_accent": "#B89B6A",
+      "color_sale": "#B4433A",
+      "heading_style": "sans",
+      "page_gutter": 20,
+      "transparent_header": true,
+      "card_show_second_image": true,
+      "card_quick_add": true,
+      "card_ratio": "portrait",
+      "cart_type": "drawer",
+      "free_shipping_threshold": 50
+    }
+  }
+}

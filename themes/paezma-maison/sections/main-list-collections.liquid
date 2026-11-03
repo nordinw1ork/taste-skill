@@ -1,0 +1,13 @@
+<div class="coll-hero"><h1>{{ 'collections.all' | t }}</h1></div>
+<div class="cats__grid" style="--cols:4;--cols-m:2;row-gap:28px;padding-bottom:90px">
+  {%- for c in collections -%}
+    {%- if c.handle == 'frontpage' -%}{%- continue -%}{%- endif -%}
+    <a href="{{ c.url }}" class="cats__item">
+      <div class="media-cover" style="aspect-ratio:3/4">{%- assign img = c.featured_image | default: c.products.first.featured_media -%}{%- if img -%}{{ img | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 25vw, 50vw', widths: '400,600,900', alt: c.title }}{%- else -%}{{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}</div>
+      <div class="cats__label t-center"><span class="btn-link">{{ c.title }}</span></div>
+    </a>
+  {%- endfor -%}
+</div>
+{% schema %}
+{ "name": "Lista de colecciones", "settings": [] }
+{% endschema %}

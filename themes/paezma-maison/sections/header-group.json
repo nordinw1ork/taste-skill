@@ -1,0 +1,21 @@
+{
+  "type": "header",
+  "name": "Grupo cabecera",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "m1": { "type": "message", "settings": { "text": "Envío gratis a partir de 50 €", "link": "" } },
+        "m2": { "type": "message", "settings": { "text": "Devoluciones gratuitas en 14 días", "link": "" } },
+        "m3": { "type": "message", "settings": { "text": "Joyas con baño de oro de 18k", "link": "" } }
+      },
+      "block_order": ["m1", "m2", "m3"],
+      "settings": { "bg": "#2A2A2A", "color": "#FFFFFF" }
+    },
+    "header": {
+      "type": "header",
+      "settings": { "menu": "main-menu", "logo_height": 30 }
+    }
+  },
+  "order": ["announcement", "header"]
+}

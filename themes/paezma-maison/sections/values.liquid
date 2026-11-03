@@ -1,0 +1,37 @@
+<section class="section" style="--pt:{{ section.settings.pt }}px;--pb:{{ section.settings.pb }}px;--pt-m:{{ section.settings.pt_m }}px;--pb-m:{{ section.settings.pb_m }}px;background:{{ section.settings.bg }}">
+  <div class="usp" style="--cols:{{ section.blocks.size }}">
+    {%- for block in section.blocks -%}
+      <div class="usp__item" data-reveal style="transition-delay:{{ forloop.index0 | times: 80 }}ms" {{ block.shopify_attributes }}>
+        {% render 'icon', icon: block.settings.icon %}
+        <h3>{{ block.settings.title }}</h3>
+        <p>{{ block.settings.text }}</p>
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Ventajas / valores",
+  "settings": [
+    { "type": "color", "id": "bg", "label": "Fondo", "default": "#F6F5F3" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "pt", "label": "Margen superior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "pb", "label": "Margen inferior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "pt_m", "label": "Margen superior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "pb_m", "label": "Margen inferior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    { "type": "item", "name": "Ventaja", "settings": [
+      { "type": "select", "id": "icon", "label": "Icono", "options": [
+        { "value": "truck", "label": "Envío" }, { "value": "return", "label": "Devolución" }, { "value": "gift", "label": "Regalo" },
+        { "value": "diamond", "label": "Joya" }, { "value": "shield", "label": "Garantía" }, { "value": "lock", "label": "Pago seguro" },
+        { "value": "leaf", "label": "Hipoalergénico" }, { "value": "chat", "label": "Atención" }
+      ], "default": "truck" },
+      { "type": "text", "id": "title", "label": "Título", "default": "Envío gratis" },
+      { "type": "text", "id": "text", "label": "Texto", "default": "En pedidos a partir de 50 €" }
+    ] }
+  ],
+  "max_blocks": 4,
+  "presets": [ { "name": "Ventajas / valores", "blocks": [ { "type": "item" }, { "type": "item" }, { "type": "item" }, { "type": "item" } ] } ]
+}
+{% endschema %}

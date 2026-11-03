@@ -1,0 +1,43 @@
+{%- assign coll = section.settings.collection -%}
+<section class="section prow" data-row style="--pt:{{ section.settings.pt }}px;--pb:{{ section.settings.pb }}px;--pt-m:{{ section.settings.pt_m }}px;--pb-m:{{ section.settings.pb_m }}px">
+  <div class="prow__head">
+    <div class="h2" data-reveal>{{ section.settings.title }}</div>
+    <div style="display:flex;gap:22px;align-items:center">
+      {%- if coll != blank -%}<a href="{{ coll.url }}" class="btn-link">{{ section.settings.link_label }}</a>{%- endif -%}
+      <div class="prow__nav">
+        <button type="button" data-row-nav="prev" aria-label="{{ 'general.previous' | t }}">{% render 'icon', icon: 'arrow-left' %}</button>
+        <button type="button" data-row-nav="next" aria-label="{{ 'general.next' | t }}">{% render 'icon', icon: 'arrow-right' %}</button>
+      </div>
+    </div>
+  </div>
+  <div class="prow__track" data-row-track style="--cols:{{ section.settings.cols }};--cols-m:{{ section.settings.cols_m }}">
+    {%- if coll != blank and coll.products_count > 0 -%}
+      {%- for product in coll.products limit: section.settings.limit -%}
+        {% render 'product-card', product: product %}
+      {%- endfor -%}
+    {%- else -%}
+      {%- for i in (1..6) -%}
+        <div class="card"><div class="card__media" style="--card-ratio:3/4">{{ 'product-' | append: i | placeholder_svg_tag: 'placeholder-svg' }}</div><div class="card__info"><h3 class="card__title">Nombre del producto</h3><div class="card__price">49,00 €</div></div></div>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Fila de productos",
+  "settings": [
+    { "type": "text", "id": "title", "label": "Título", "default": "Selección curada" },
+    { "type": "collection", "id": "collection", "label": "Colección" },
+    { "type": "text", "id": "link_label", "label": "Texto del enlace", "default": "Ver todo" },
+    { "type": "range", "id": "limit", "label": "Número de productos", "min": 4, "max": 24, "step": 1, "default": 12 },
+    { "type": "range", "id": "cols", "label": "Productos visibles (escritorio)", "min": 2, "max": 6, "step": 1, "default": 4 },
+    { "type": "select", "id": "cols_m", "label": "Productos visibles (móvil)", "options": [ { "value": "1.2", "label": "1,2" }, { "value": "1.5", "label": "1,5" }, { "value": "2.2", "label": "2,2" } ], "default": "1.5" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "pt", "label": "Margen superior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 70 },
+    { "type": "range", "id": "pb", "label": "Margen inferior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 70 },
+    { "type": "range", "id": "pt_m", "label": "Margen superior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "pb_m", "label": "Margen inferior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 26 }
+  ],
+  "presets": [ { "name": "Fila de productos" } ]
+}
+{% endschema %}

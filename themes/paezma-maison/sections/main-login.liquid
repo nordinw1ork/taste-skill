@@ -1,0 +1,30 @@
+<div class="account">
+  <h1>{{ 'customer.login' | t }}</h1>
+  <div id="RecoverForm" hidden>
+    <p class="muted t-center">{{ 'customer.reset_text' | t }}</p>
+    {%- form 'recover_customer_password' -%}
+      {{ form.errors | default_errors }}
+      {%- if form.posted_successfully? -%}<p class="form-success">OK</p>{%- endif -%}
+      <div class="field"><label for="RecoverEmail">{{ 'customer.email' | t }}</label><input type="email" id="RecoverEmail" name="email" required autocomplete="email"></div>
+      <button class="btn btn--full">{{ 'customer.submit' | t }}</button>
+      <p class="t-center" style="margin-top:16px"><a href="#" class="btn-link" onclick="document.getElementById('RecoverForm').hidden=true;document.getElementById('LoginForm').hidden=false;return false">{{ 'customer.cancel' | t }}</a></p>
+    {%- endform -%}
+  </div>
+  <div id="LoginForm">
+    {%- form 'customer_login' -%}
+      {{ form.errors | default_errors }}
+      <div class="field"><label for="LEmail">{{ 'customer.email' | t }}</label><input type="email" id="LEmail" name="customer[email]" required autocomplete="email"></div>
+      {%- if form.password_needed -%}
+      <div class="field"><label for="LPass">{{ 'customer.password' | t }}</label><input type="password" id="LPass" name="customer[password]" required autocomplete="current-password"></div>
+      <p><a href="#recover" class="muted" style="text-decoration:underline" onclick="document.getElementById('RecoverForm').hidden=false;document.getElementById('LoginForm').hidden=true;return false">{{ 'customer.forgot' | t }}</a></p>
+      {%- endif -%}
+      <button class="btn btn--full">{{ 'customer.login' | t }}</button>
+    {%- endform -%}
+    <p class="t-center" style="margin-top:22px"><a href="{{ routes.account_register_url }}" class="btn-link">{{ 'customer.create' | t }}</a></p>
+  </div>
+  {%- form 'guest_login' -%}<p class="t-center"><button class="btn-link" type="submit">Continuar como invitado</button></p>{%- endform -%}
+</div>
+<script>if(location.hash==='#recover'){document.getElementById('RecoverForm').hidden=false;document.getElementById('LoginForm').hidden=true;}</script>
+{% schema %}
+{ "name": "Login", "settings": [] }
+{% endschema %}

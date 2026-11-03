@@ -1,0 +1,17 @@
+{%- paginate blog.articles by 12 -%}
+<div class="coll-hero"><h1>{{ blog.title }}</h1></div>
+<div class="articles">
+  {%- for article in blog.articles -%}
+    <a href="{{ article.url }}" class="article-card">
+      <div class="media-cover">{%- if article.image -%}{{ article.image | image_url: width: 900 | image_tag: loading: 'lazy', sizes: '(min-width: 990px) 33vw, 100vw', widths: '400,600,900', alt: article.title }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}</div>
+      <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'date' }}</time>
+      <h3>{{ article.title }}</h3>
+      <p class="muted">{{ article.excerpt_or_content | strip_html | truncatewords: 22 }}</p>
+    </a>
+  {%- endfor -%}
+</div>
+{%- if paginate.pages > 1 -%}<nav class="pagination">{%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">← {{ 'general.previous' | t }}</a>{%- endif -%}<span>{{ paginate.current_page }} / {{ paginate.pages }}</span>{%- if paginate.next -%}<a href="{{ paginate.next.url }}">{{ 'general.next' | t }} →</a>{%- endif -%}</nav>{%- else -%}<div style="height:80px"></div>{%- endif -%}
+{%- endpaginate -%}
+{% schema %}
+{ "name": "Blog", "settings": [] }
+{% endschema %}

@@ -1,0 +1,77 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Paezma Maison",
+    "theme_version": "1.0.0",
+    "theme_author": "Paezma",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/manual/online-store/themes"
+  },
+  {
+    "name": "Colores",
+    "settings": [
+      { "type": "color", "id": "color_text", "label": "Texto", "default": "#2A2A2A" },
+      { "type": "color", "id": "color_muted", "label": "Texto secundario", "default": "#737373" },
+      { "type": "color", "id": "color_background", "label": "Fondo", "default": "#FFFFFF" },
+      { "type": "color", "id": "color_soft", "label": "Fondo suave (tarjetas)", "default": "#F6F5F3" },
+      { "type": "color", "id": "color_accent", "label": "Acento (dorado)", "default": "#B89B6A" },
+      { "type": "color", "id": "color_sale", "label": "Precio rebajado", "default": "#B4433A" }
+    ]
+  },
+  {
+    "name": "Tipografía",
+    "settings": [
+      {
+        "type": "select", "id": "heading_style", "label": "Estilo de títulos",
+        "options": [
+          { "value": "sans", "label": "Sans (Inter, minimal)" },
+          { "value": "serif", "label": "Serif (Cormorant, joyería)" }
+        ],
+        "default": "sans"
+      }
+    ]
+  },
+  {
+    "name": "Diseño",
+    "settings": [
+      { "type": "range", "id": "page_gutter", "label": "Margen lateral", "min": 8, "max": 48, "step": 2, "unit": "px", "default": 20 },
+      { "type": "checkbox", "id": "transparent_header", "label": "Cabecera transparente sobre el hero de la home", "default": true },
+      { "type": "image_picker", "id": "favicon", "label": "Favicon" }
+    ]
+  },
+  {
+    "name": "Tarjeta de producto",
+    "settings": [
+      { "type": "checkbox", "id": "card_show_second_image", "label": "Mostrar segunda imagen al pasar el ratón", "default": true },
+      { "type": "checkbox", "id": "card_quick_add", "label": "Añadir rápido (talla / variante)", "default": true },
+      { "type": "select", "id": "card_ratio", "label": "Proporción de imagen",
+        "options": [
+          { "value": "portrait", "label": "Retrato 3:4" },
+          { "value": "square", "label": "Cuadrado" },
+          { "value": "tall", "label": "Alto 2:3" }
+        ],
+        "default": "portrait"
+      }
+    ]
+  },
+  {
+    "name": "Carrito",
+    "settings": [
+      { "type": "select", "id": "cart_type", "label": "Tipo de carrito",
+        "options": [ { "value": "drawer", "label": "Panel lateral" }, { "value": "page", "label": "Página" } ],
+        "default": "drawer"
+      },
+      { "type": "range", "id": "free_shipping_threshold", "label": "Envío gratis a partir de", "min": 0, "max": 300, "step": 5, "unit": "€", "default": 50, "info": "0 para ocultar la barra" },
+      { "type": "text", "id": "cart_note", "label": "Texto bajo el botón de pago", "default": "Impuestos incluidos. Envío calculado en el checkout." }
+    ]
+  },
+  {
+    "name": "Redes sociales",
+    "settings": [
+      { "type": "text", "id": "social_instagram", "label": "Instagram URL" },
+      { "type": "text", "id": "social_tiktok", "label": "TikTok URL" },
+      { "type": "text", "id": "social_pinterest", "label": "Pinterest URL" },
+      { "type": "text", "id": "social_facebook", "label": "Facebook URL" }
+    ]
+  }
+]

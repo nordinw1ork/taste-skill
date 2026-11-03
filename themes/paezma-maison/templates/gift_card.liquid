@@ -1,0 +1,28 @@
+{%- layout none -%}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ 'gift_card.title' | t }} – {{ shop.name }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>:root{--c-text:{{ settings.color_text }};--c-muted:{{ settings.color_muted }};--c-bg:#fff;--c-soft:{{ settings.color_soft }};--f-body:'Inter',sans-serif;--f-heading:'Inter',sans-serif;--gutter:20px;--header-h:64px}</style>
+  {{ 'base.css' | asset_url | stylesheet_tag }}
+  <script src="{{ 'vendor/qrcode.js' | shopify_asset_url }}" defer></script>
+  {{ content_for_header }}
+</head>
+<body>
+  <div class="account t-center">
+    <div class="header__logo" style="margin-bottom:30px">{{ shop.name }}</div>
+    <h1>{{ 'gift_card.title' | t }}</h1>
+    <p style="font-size:30px;margin:10px 0">{{ gift_card.balance | money }}</p>
+    {%- if gift_card.expired or gift_card.enabled == false -%}<p class="muted">Caducada / desactivada</p>{%- endif -%}
+    <p class="uc muted" style="font-size:11px">{{ 'gift_card.code' | t }}</p>
+    <p style="font-size:20px;letter-spacing:.1em" id="GiftCode">{{ gift_card.code | format_code }}</p>
+    <div id="QrCode" data-identifier="{{ gift_card.qr_identifier }}" style="display:flex;justify-content:center;margin:20px 0"></div>
+    <a href="{{ shop.url }}" class="btn">{{ 'cart.continue' | t }}</a>
+    <p style="margin-top:14px"><a href="#" class="btn-link" onclick="window.print();return false">{{ 'gift_card.print' | t }}</a></p>
+    {%- if gift_card.pass_url -%}<p><a href="{{ gift_card.pass_url }}"><img src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}" width="120" height="40" alt="Apple Wallet" style="margin:10px auto"></a></p>{%- endif -%}
+  </div>
+  <script>window.addEventListener('load',function(){var q=document.getElementById('QrCode');if(window.QRCode&&q){new QRCode(q,{text:q.dataset.identifier,width:120,height:120});}});</script>
+</body>
+</html>

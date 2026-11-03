@@ -1,0 +1,25 @@
+<section class="section prow" data-row style="--pt:70px;--pb:90px;--pt-m:40px;--pb-m:60px">
+{%- if recommendations.performed and recommendations.products_count > 0 -%}
+  <div class="prow__head">
+    <div class="h2">{{ section.settings.title }}</div>
+    <div class="prow__nav">
+      <button type="button" data-row-nav="prev" aria-label="{{ 'general.previous' | t }}">{% render 'icon', icon: 'arrow-left' %}</button>
+      <button type="button" data-row-nav="next" aria-label="{{ 'general.next' | t }}">{% render 'icon', icon: 'arrow-right' %}</button>
+    </div>
+  </div>
+  <div class="prow__track" data-row-track style="--cols:4;--cols-m:1.5">
+    {%- for product in recommendations.products -%}{% render 'product-card', product: product %}{%- endfor -%}
+  </div>
+{%- else -%}
+  <div data-recommendations data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit=8"></div>
+  <script>
+    (function(){var el=document.currentScript.previousElementSibling;if(!el||!el.dataset.url)return;fetch(el.dataset.url).then(function(r){return r.text()}).then(function(t){var d=new DOMParser().parseFromString(t,'text/html');var s=d.querySelector('.prow');if(s&&s.querySelector('.card'))el.closest('.prow').innerHTML=s.innerHTML;});})();
+  </script>
+{%- endif -%}
+</section>
+{% schema %}
+{
+  "name": "Productos relacionados",
+  "settings": [ { "type": "text", "id": "title", "label": "Título", "default": "También te puede gustar" } ]
+}
+{% endschema %}

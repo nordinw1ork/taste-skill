@@ -1,0 +1,37 @@
+<section class="section" style="--pt:{{ section.settings.pt }}px;--pb:{{ section.settings.pb }}px;--pt-m:{{ section.settings.pt_m }}px;--pb-m:{{ section.settings.pb_m }}px">
+  <div class="split" style="--split:{{ section.settings.split }}">
+    {%- for block in section.blocks limit: 2 -%}
+      <a href="{{ block.settings.link | default: block.settings.collection.url | default: '#' }}" class="split__item" data-reveal style="transition-delay:{{ forloop.index0 | times: 120 }}ms" {{ block.shopify_attributes }}>
+        <div class="media-cover" style="aspect-ratio:{{ block.settings.ratio }}">
+          {%- assign img = block.settings.image | default: block.settings.collection.featured_image -%}
+          {%- if img -%}{{ img | image_url: width: 1600 | image_tag: loading: 'lazy', sizes: '(min-width: 768px) 60vw, 100vw', widths: '600,900,1200,1600', alt: block.settings.label }}{%- else -%}{{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}{%- endif -%}
+        </div>
+        <span class="split__label"><span class="btn-link">{{ block.settings.label | default: block.settings.collection.title }}</span></span>
+      </a>
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Doble imagen (ventanas)",
+  "settings": [
+    { "type": "select", "id": "split", "label": "Proporción", "options": [ { "value": "3fr 7fr", "label": "30 / 70" }, { "value": "7fr 3fr", "label": "70 / 30" }, { "value": "1fr 1fr", "label": "50 / 50" }, { "value": "4fr 6fr", "label": "40 / 60" } ], "default": "3fr 7fr" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "pt", "label": "Margen superior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "pb", "label": "Margen inferior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 72 },
+    { "type": "range", "id": "pt_m", "label": "Margen superior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "pb_m", "label": "Margen inferior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 }
+  ],
+  "blocks": [
+    { "type": "window", "name": "Imagen", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Imagen" },
+      { "type": "collection", "id": "collection", "label": "Colección" },
+      { "type": "text", "id": "label", "label": "Texto" },
+      { "type": "url", "id": "link", "label": "Enlace" },
+      { "type": "select", "id": "ratio", "label": "Proporción", "options": [ { "value": "3/4", "label": "3:4" }, { "value": "4/5", "label": "4:5" }, { "value": "1/1", "label": "1:1" }, { "value": "16/11", "label": "16:11" }, { "value": "16/9", "label": "16:9" } ], "default": "3/4" }
+    ] }
+  ],
+  "max_blocks": 2,
+  "presets": [ { "name": "Doble imagen (ventanas)", "blocks": [ { "type": "window", "settings": { "ratio": "3/4" } }, { "type": "window", "settings": { "ratio": "16/11" } } ] } ]
+}
+{% endschema %}

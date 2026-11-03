@@ -1,0 +1,30 @@
+<div class="account account--wide">
+  <h1>{{ 'general.account' | t }}</h1>
+  <p class="t-center"><a href="{{ routes.account_logout_url }}" class="btn-link">{{ 'customer.logout' | t }}</a></p>
+  <div style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:48px;margin-top:36px" class="acct-grid">
+    <div>
+      <h2 class="h3 uc">{{ 'customer.orders' | t }}</h2>
+      {%- paginate customer.orders by 20 -%}
+      {%- if customer.orders.size > 0 -%}
+        <table class="table">
+          <thead><tr><th>{{ 'customer.order' | t }}</th><th>{{ 'customer.date' | t }}</th><th>{{ 'customer.payment' | t }}</th><th>{{ 'customer.fulfillment' | t }}</th><th>{{ 'customer.total' | t }}</th></tr></thead>
+          <tbody>
+          {%- for order in customer.orders -%}
+            <tr><td><a href="{{ order.customer_url }}" style="text-decoration:underline">{{ order.name }}</a></td><td>{{ order.created_at | date: format: 'date' }}</td><td>{{ order.financial_status_label }}</td><td>{{ order.fulfillment_status_label }}</td><td>{{ order.total_price | money }}</td></tr>
+          {%- endfor -%}
+          </tbody>
+        </table>
+      {%- else -%}<p class="muted">{{ 'customer.no_orders' | t }}</p>{%- endif -%}
+      {%- endpaginate -%}
+    </div>
+    <div>
+      <h2 class="h3 uc">{{ 'customer.addresses' | t }}</h2>
+      {%- if customer.default_address -%}<div class="muted">{{ customer.default_address | format_address }}</div>{%- endif -%}
+      <a href="{{ routes.account_addresses_url }}" class="btn-link">{{ 'customer.view_addresses' | t }} ({{ customer.addresses_count }})</a>
+    </div>
+  </div>
+</div>
+<style>@media(max-width:767px){.acct-grid{grid-template-columns:1fr!important}.table{font-size:11px}}</style>
+{% schema %}
+{ "name": "Cuenta", "settings": [] }
+{% endschema %}

@@ -1,0 +1,22 @@
+<div class="account">
+  <p><a href="{{ routes.account_url }}" class="btn-link">← {{ 'general.account' | t }}</a></p>
+  <h1>{{ 'customer.addresses' | t }}</h1>
+  {%- paginate customer.addresses by 10 -%}
+  {%- for address in customer.addresses -%}
+    <div style="border-bottom:1px solid #eee;padding:18px 0">
+      {%- if address == customer.default_address -%}<p class="uc" style="font-size:11px">{{ 'customer.default' | t }}</p>{%- endif -%}
+      <div class="muted">{{ address | format_address }}</div>
+      <details style="margin-top:10px"><summary class="btn-link" style="cursor:pointer;list-style:none">{{ 'customer.edit' | t }}</summary>
+        {% render 'address-form', address: address %}
+      </details>
+      <form method="post" action="{{ routes.account_addresses_url }}/{{ address.id }}" style="margin-top:8px"><input type="hidden" name="_method" value="delete"><button type="submit" class="muted" style="text-decoration:underline;font-size:11px" onclick="return confirm('¿Eliminar?')">{{ 'customer.delete' | t }}</button></form>
+    </div>
+  {%- endfor -%}
+  {%- endpaginate -%}
+  <details style="margin-top:28px" {% if customer.addresses_count == 0 %}open{% endif %}><summary class="btn" style="list-style:none">{{ 'customer.add_address' | t }}</summary>
+    {% render 'address-form', address: customer.new_address %}
+  </details>
+</div>
+{% schema %}
+{ "name": "Direcciones", "settings": [] }
+{% endschema %}

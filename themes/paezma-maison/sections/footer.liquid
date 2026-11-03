@@ -1,0 +1,75 @@
+<footer class="footer">
+  <div class="footer__top">
+    <div class="footer__nl">
+      <div class="footer__brand">{{ section.settings.brand_text | default: shop.name }}</div>
+      {%- if section.settings.newsletter_title != blank -%}<p class="muted" style="margin:0">{{ section.settings.newsletter_title }}</p>{%- endif -%}
+      {%- form 'customer', id: 'FooterNewsletter' -%}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+        {%- if form.posted_successfully? -%}<p class="form-success" style="margin:8px 0 0;width:100%">{{ 'newsletter.success' | t }}</p>{%- else -%}
+        <input type="email" name="contact[email]" required placeholder="{{ 'newsletter.email' | t }}" aria-label="{{ 'newsletter.email' | t }}">
+        <button type="submit">{{ 'newsletter.subscribe' | t }}</button>
+        {%- endif -%}
+      {%- endform -%}
+      {%- if section.settings.legal_note != blank -%}<div class="muted rte" style="font-size:11px;margin-top:10px">{{ section.settings.legal_note }}</div>{%- endif -%}
+    </div>
+    {%- for block in section.blocks -%}
+      <div class="footer__col" {{ block.shopify_attributes }}>
+        <h4>{{ block.settings.title | default: block.settings.menu.title }}</h4>
+        {%- if block.type == 'menu' -%}
+          <ul>{%- for link in block.settings.menu.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}</ul>
+        {%- else -%}
+          <div class="rte muted">{{ block.settings.text }}</div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+  <div class="footer__bottom">
+    <div>© {{ 'now' | date: '%Y' }} {{ shop.name }}</div>
+    <div class="footer__social">
+      {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
+      {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>{%- endif -%}
+      {%- if settings.social_pinterest != blank -%}<a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener">Pinterest</a>{%- endif -%}
+      {%- if settings.social_facebook != blank -%}<a href="{{ settings.social_facebook }}" target="_blank" rel="noopener">Facebook</a>{%- endif -%}
+    </div>
+    {%- if localization.available_countries.size > 1 or localization.available_languages.size > 1 -%}
+      {%- form 'localization', class: 'localization-form' -%}
+        {%- if localization.available_countries.size > 1 -%}
+          <select name="country_code" onchange="this.form.submit()" aria-label="País">
+            {%- for c in localization.available_countries -%}<option value="{{ c.iso_code }}" {% if c.iso_code == localization.country.iso_code %}selected{% endif %}>{{ c.name }} ({{ c.currency.iso_code }})</option>{%- endfor -%}
+          </select>
+        {%- endif -%}
+        {%- if localization.available_languages.size > 1 -%}
+          <select name="locale_code" onchange="this.form.submit()" aria-label="Idioma">
+            {%- for l in localization.available_languages -%}<option value="{{ l.iso_code }}" {% if l.iso_code == localization.language.iso_code %}selected{% endif %}>{{ l.endonym_name | capitalize }}</option>{%- endfor -%}
+          </select>
+        {%- endif -%}
+      {%- endform -%}
+    {%- endif -%}
+    {%- if section.settings.show_payment -%}
+      <div class="footer__pay">{%- for type in shop.enabled_payment_types -%}{{ type | payment_type_svg_tag }}{%- endfor -%}</div>
+    {%- endif -%}
+  </div>
+</footer>
+{% schema %}
+{
+  "name": "Pie de página",
+  "class": "section-footer",
+  "settings": [
+    { "type": "text", "id": "brand_text", "label": "Marca (texto)" },
+    { "type": "text", "id": "newsletter_title", "label": "Texto newsletter", "default": "Únete a nuestra comunidad" },
+    { "type": "richtext", "id": "legal_note", "label": "Nota legal", "default": "<p>Al suscribirte aceptas nuestra política de privacidad.</p>" },
+    { "type": "checkbox", "id": "show_payment", "label": "Mostrar métodos de pago", "default": true }
+  ],
+  "blocks": [
+    { "type": "menu", "name": "Menú", "settings": [
+      { "type": "text", "id": "title", "label": "Título" },
+      { "type": "link_list", "id": "menu", "label": "Menú", "default": "footer" }
+    ] },
+    { "type": "text", "name": "Texto", "settings": [
+      { "type": "text", "id": "title", "label": "Título", "default": "Contacto" },
+      { "type": "richtext", "id": "text", "label": "Texto", "default": "<p>Escríbenos y te ayudamos.</p>" }
+    ] }
+  ],
+  "max_blocks": 4
+}
+{% endschema %}

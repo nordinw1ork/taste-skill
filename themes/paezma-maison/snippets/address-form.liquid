@@ -1,0 +1,19 @@
+{%- form 'customer_address', address -%}
+  {{ form.errors | default_errors }}
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 10px;margin-top:14px">
+    <div class="field"><label>{{ 'customer.first_name' | t }}</label><input name="address[first_name]" value="{{ form.first_name }}"></div>
+    <div class="field"><label>{{ 'customer.last_name' | t }}</label><input name="address[last_name]" value="{{ form.last_name }}"></div>
+  </div>
+  <div class="field"><label>{{ 'customer.company' | t }}</label><input name="address[company]" value="{{ form.company }}"></div>
+  <div class="field"><label>{{ 'customer.address1' | t }}</label><input name="address[address1]" value="{{ form.address1 }}"></div>
+  <div class="field"><label>{{ 'customer.address2' | t }}</label><input name="address[address2]" value="{{ form.address2 }}"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 10px">
+    <div class="field"><label>{{ 'customer.city' | t }}</label><input name="address[city]" value="{{ form.city }}"></div>
+    <div class="field"><label>{{ 'customer.zip' | t }}</label><input name="address[zip]" value="{{ form.zip }}"></div>
+  </div>
+  <div class="field"><label>{{ 'customer.country' | t }}</label><select name="address[country]" data-default="{{ form.country }}">{{ all_country_option_tags }}</select></div>
+  <div class="field"><label>{{ 'customer.province' | t }}</label><input name="address[province]" value="{{ form.province }}"></div>
+  <div class="field"><label>{{ 'customer.phone' | t }}</label><input type="tel" name="address[phone]" value="{{ form.phone }}"></div>
+  <label style="display:flex;gap:8px;margin-bottom:14px">{{ form.set_as_default_checkbox }} {{ 'customer.set_default' | t }}</label>
+  <button class="btn btn--full">{{ 'customer.save' | t }}</button>
+{%- endform -%}

@@ -1,0 +1,14 @@
+{%- liquid
+  assign target = variant | default: product.selected_or_first_available_variant
+  assign p = target.price
+  assign cap = target.compare_at_price
+  if use_range and product.price_varies
+    assign p = product.price_min
+    assign cap = product.compare_at_price_min
+  endif
+-%}
+{%- if cap > p -%}
+  <s>{{ cap | money }}</s><span class="sale">{% if use_range and product.price_varies %}{{ 'products.from' | t: price: '' | strip }} {% endif %}{{ p | money }}</span>
+{%- else -%}
+  <span>{% if use_range and product.price_varies %}{{ 'products.from' | t: price: '' | strip }} {% endif %}{{ p | money }}</span>
+{%- endif -%}

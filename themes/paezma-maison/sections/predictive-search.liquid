@@ -1,0 +1,17 @@
+<div data-predictive>
+  {%- if predictive_search.performed -%}
+    {%- if predictive_search.resources.products.size > 0 -%}
+      <div class="predictive">
+        {%- for product in predictive_search.resources.products limit: 6 -%}
+          {% render 'product-card', product: product %}
+        {%- endfor -%}
+      </div>
+      <p style="margin-top:18px"><a class="btn-link" href="{{ routes.search_url }}?q={{ predictive_search.terms | url_encode }}">{{ 'general.view_all' | t }}</a></p>
+    {%- else -%}
+      <p class="muted">{{ 'search.no_results' | t: terms: predictive_search.terms }}</p>
+    {%- endif -%}
+  {%- endif -%}
+</div>
+{% schema %}
+{ "name": "Predictive search", "settings": [] }
+{% endschema %}

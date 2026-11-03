@@ -1,0 +1,65 @@
+<section class="section" style="--pt:{{ section.settings.pt }}px;--pb:{{ section.settings.pb }}px;--pt-m:{{ section.settings.pt_m }}px;--pb-m:{{ section.settings.pb_m }}px">
+  <div class="fsm{% if section.settings.height == 'auto' %} fsm--auto{% endif %}" {% if section.settings.height == 'large' %}style="height:85svh"{% endif %}>
+    {%- if section.settings.link != blank -%}<a class="fsm__link" href="{{ section.settings.link }}" aria-label="{{ section.settings.title | default: section.settings.button_label | escape }}"></a>{%- endif -%}
+    <div class="media-cover">
+      {%- if section.settings.video != blank -%}
+        {{ section.settings.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1800x', class: 'desktop-only' }}
+        {{ section.settings.video_mobile | default: section.settings.video | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '900x', class: 'mobile-only' }}
+      {%- elsif section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 2400 | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '900,1400,1800,2400', class: 'desktop-only', alt: section.settings.image.alt }}
+        {%- assign mimg = section.settings.image_mobile | default: section.settings.image -%}
+        {{ mimg | image_url: width: 1200 | image_tag: loading: 'eager', sizes: '100vw', widths: '600,900,1200', class: 'mobile-only', alt: mimg.alt }}
+      {%- else -%}
+        {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      {%- endif -%}
+    </div>
+    <div class="fsm__overlay" style="opacity:{{ section.settings.overlay | divided_by: 100.0 }}"></div>
+    <div class="fsm__content v-{{ section.settings.v_align }}" style="color:{{ section.settings.color }};padding-bottom:{{ section.settings.bottom_offset }}px">
+      {%- if section.settings.logo != blank -%}
+        <div class="fsm__logo" style="--logo-w:{{ section.settings.logo_w }}vw;--logo-w-m:{{ section.settings.logo_w_m }}vw">{{ section.settings.logo | image_url: width: 1200 | image_tag: alt: shop.name }}</div>
+      {%- endif -%}
+      {%- if section.settings.eyebrow != blank -%}<div class="fsm__eyebrow" data-reveal>{{ section.settings.eyebrow }}</div>{%- endif -%}
+      {%- if section.settings.title != blank -%}<h2 class="fsm__title" data-reveal>{{ section.settings.title }}</h2>{%- endif -%}
+      {%- if section.settings.text != blank -%}<div class="fsm__text" data-reveal>{{ section.settings.text }}</div>{%- endif -%}
+      {%- if section.settings.button_label != blank or section.settings.button_label_2 != blank -%}
+      <div class="fsm__buttons" data-reveal>
+        {%- if section.settings.button_label != blank -%}<a href="{{ section.settings.link }}" class="{% if section.settings.button_style == 'pill' %}btn btn--pill{% else %}btn-link white{% endif %}">{{ section.settings.button_label }}</a>{%- endif -%}
+        {%- if section.settings.button_label_2 != blank -%}<a href="{{ section.settings.link_2 }}" class="{% if section.settings.button_style == 'pill' %}btn btn--pill{% else %}btn-link white{% endif %}">{{ section.settings.button_label_2 }}</a>{%- endif -%}
+      </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "Media a pantalla completa",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Imagen (escritorio)" },
+    { "type": "image_picker", "id": "image_mobile", "label": "Imagen (móvil)" },
+    { "type": "video", "id": "video", "label": "Vídeo (escritorio)" },
+    { "type": "video", "id": "video_mobile", "label": "Vídeo (móvil)" },
+    { "type": "select", "id": "height", "label": "Altura", "options": [ { "value": "full", "label": "Pantalla completa" }, { "value": "large", "label": "85%" }, { "value": "auto", "label": "Según imagen" } ], "default": "full" },
+    { "type": "range", "id": "overlay", "label": "Oscurecer imagen", "min": 0, "max": 80, "step": 5, "unit": "%", "default": 15 },
+    { "type": "image_picker", "id": "logo", "label": "Logo / lettering sobre la imagen" },
+    { "type": "range", "id": "logo_w", "label": "Ancho logo escritorio", "min": 10, "max": 80, "step": 1, "unit": "vw", "default": 25 },
+    { "type": "range", "id": "logo_w_m", "label": "Ancho logo móvil", "min": 20, "max": 95, "step": 1, "unit": "vw", "default": 60 },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Nueva colección" },
+    { "type": "richtext", "id": "text", "label": "Texto" },
+    { "type": "text", "id": "button_label", "label": "Botón", "default": "Comprar ahora" },
+    { "type": "url", "id": "link", "label": "Enlace (toda la imagen es clicable)" },
+    { "type": "text", "id": "button_label_2", "label": "Botón 2" },
+    { "type": "url", "id": "link_2", "label": "Enlace 2" },
+    { "type": "select", "id": "button_style", "label": "Estilo de botón", "options": [ { "value": "pill", "label": "Píldora blanca" }, { "value": "link", "label": "Enlace subrayado" } ], "default": "pill" },
+    { "type": "select", "id": "v_align", "label": "Posición vertical", "options": [ { "value": "center", "label": "Centro" }, { "value": "bottom", "label": "Abajo" } ], "default": "bottom" },
+    { "type": "range", "id": "bottom_offset", "label": "Separación inferior", "min": 0, "max": 240, "step": 4, "unit": "px", "default": 80 },
+    { "type": "color", "id": "color", "label": "Color del texto", "default": "#FFFFFF" },
+    { "type": "header", "content": "Espaciado" },
+    { "type": "range", "id": "pt", "label": "Margen superior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "pb", "label": "Margen inferior", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "pt_m", "label": "Margen superior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 },
+    { "type": "range", "id": "pb_m", "label": "Margen inferior (móvil)", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 0 }
+  ],
+  "presets": [ { "name": "Media a pantalla completa" } ]
+}
+{% endschema %}
